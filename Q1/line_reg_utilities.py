@@ -207,7 +207,7 @@ def run_model(loss_fn,
         total_time = time.time() - start_time
 
     # display final weight, bias, and time
-    print(f"Weight: {weight.numpy()}, Bias: {bias.numpy()}, Time: {total_time}")
+    print(f"Weight: {weight.numpy()}, Bias: {bias.numpy()}, Time: {total_time}, Final Loss: {losses[-1]}")
 
     return (weight.numpy(), bias.numpy(), total_time, 
             train_steps, Y_PRED.numpy(), Y_TRUE.numpy(),
