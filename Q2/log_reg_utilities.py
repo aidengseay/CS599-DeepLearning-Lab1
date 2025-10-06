@@ -12,11 +12,11 @@ import matplotlib.pyplot as plt
 ################################################################################
 # Constants
 
-SGD = 100
-ADAM = 101
-ADAGRAD = 102
-NADAM = 103
-RMSPROP = 104
+SGD = "SGD"
+ADAM = "ADAM"
+ADAGRAD = "ADAGRAD"
+NADAM = "NADAM"
+RMSPROP = "RMSPROP"
 
 
 ################################################################################
@@ -43,7 +43,8 @@ def run_model(learning_rate,
     # define the model
     model = tf.keras.Sequential([
         tf.keras.layers.Input(shape = (X_train.shape[1],)),
-        tf.keras.layers.Dense(units = 10, activation = "sigmoid")
+        tf.keras.layers.Dense(units = 10, activation = "sigmoid",
+                              kernel_regularizer=tf.keras.regularizers.l2(0.001))
     ])
 
     # compile the model
@@ -53,6 +54,8 @@ def run_model(learning_rate,
         metrics = ["accuracy"]
     )
 
+    start_time = time.time()
+
     # train the model
     history = model.fit(
         X_train, y_train,
@@ -61,7 +64,10 @@ def run_model(learning_rate,
         epochs= n_epochs,
     )
 
-    return model, history
+    total_time = time.time() - start_time
+    time_per_epoch = total_time / n_epochs
+
+    return model, history  #, total_time, time_per_epoch
 
 
 ################################################################################
